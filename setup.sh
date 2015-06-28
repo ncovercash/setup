@@ -668,6 +668,10 @@ defaults write com.apple.dock springboard-columns -int 8
 defaults write com.apple.dock ResetLaunchPad -bool TRUE;killall Dock
 sleep 0.4
 
+echo "Fixing 10.10.3 cloudd errors, finder is wayyyy snappier"
+rm ~/Library/Caches/CloudKit/CloudKitMetadata*
+sleep 0.4
+
 echo "Installing applications"
 sleep 0.4
 

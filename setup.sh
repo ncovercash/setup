@@ -735,6 +735,18 @@ then
 fi
 sleep 0.4
 
+file=/Applications/GIMP.app/Contents/MacOS/GIMP
+
+if [ ! -e "$file" ]
+then
+    echo "Installing Gimp 2.8.14 outside of X11"
+    curl -# http://download.gimp.org/pub/gimp/v2.8/osx/gimp-2.8.14.dmg > ~/temp/gimp.dmg
+    hdiutil attach ~/temp/gimp.dmg > /dev/null
+    sudo cp -r /Volumes/Gimp\ 2.8.14/GIMP.app/ /Applications/GIMP.app
+    python -c 'import subprocess;subprocess.call(["hdiutil", "detach", "/dev/disk2s1"]);subprocess.call(["hdiutil", "detach", "/dev/disk2s2"]);subprocess.call(["hdiutil", "detach", "/dev/disk3s1"]);subprocess.call(["hdiutil", "detach", "/dev/disk3s1"]);subprocess.call(["hdiutil", "detach", "/dev/disk4s1"]);subprocess.call(["hdiutil", "detach", "/dev/disk5s1"]);subprocess.call(["hdiutil", "detach", "/dev/disk6s1"]);subprocess.call(["hdiutil", "detach", "/dev/disk7s1"]);subprocess.call(["hdiutil", "detach", "/dev/disk8s1"]);subprocess.call(["hdiutil", "detach", "/dev/disk9s1"]);'
+fi
+sleep 0.4
+
 echo "Installing pip"
 curl -# https://bootstrap.pypa.io/get-pip.py | sudo -H python
 sleep 0.4
@@ -831,9 +843,6 @@ select yn in "Bigger" "Biggest"; do
         Biggest ) echo 'Whenever you reboot you will need to open Terminal in order to change the resolution back';  echo "Press enter to confirm that you know this information"; echo -e '\n~/setgetscreenres 15120 12880' > ~/.bash_profile; cp ~/temp/setgetscreenres ~; read -p "$*"; break;;
     esac
 done
-sleep 0.4
-
-sudo /opt/local/bin/port install gimp
 sleep 0.4
 
 echo "Creating a root user account (so you can login to it from the login menu etc)"
